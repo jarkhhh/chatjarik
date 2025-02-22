@@ -2,7 +2,7 @@ let sendButton = document.getElementById('sendButton');
 let messageInput = document.getElementById('messageInput');
 let messageList = document.getElementById('messageList');
 let username ="";
-username=localStorage.getItem('username');
+username=localStorage.getItem("username");
 if(username === null){
     username = prompt('Enter your username');
     localStorage.setItem('username', username);
@@ -24,28 +24,28 @@ sendButton.addEventListener('click', function() {
                 </div>`;
     messageList.innerHTML += messageElement;
 });
-setInterval(function(){
-    getMessages().then(messages => {
-        messageList.innerHTML = '';
-        messages.forEach(message => {
-            if(message.user === username){
-                let messageElement = `<div class="msg">
-                <h1>${message.user}</h1>
-                <p>${message.message}</p>
-                </div>`;
-                messageList.innerHTML += messageElement;
-                return;
-            }
-            let messageElement = `<div class="othermsg">
-                <h1>${message.user}</h1>
-                <p>${message.message}</p>
-                </div>`;
-            messageList.innerHTML += messageElement;
-        });
-    }
-  );
-  
-}, 1000);
+
+  getMessages().then(messages => {
+      messageList.innerHTML = '';
+      messages.forEach(message => {
+          if(message.user === username){
+              let messageElement = `<div class="msg">
+              <h1>${message.user}</h1>
+              <p>${message.message}</p>
+              </div>`;
+              messageList.innerHTML += messageElement;
+              return;
+          }
+          let messageElement = `<div class="othermsg">
+              <h1>${message.user}</h1>
+              <p>${message.message}</p>
+              </div>`;
+          messageList.innerHTML += messageElement;
+      });
+  }
+);
+
+
 async function sendMessage(username, message) {
     await fetch("https://worker.jaroslav-maksimov-1012.workers.dev/send", {
       method: "POST",
